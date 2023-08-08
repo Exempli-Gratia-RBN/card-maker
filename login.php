@@ -1,30 +1,39 @@
 <?php
-session_start();   
-include("db_connect.php"); 
- 
-if(isset($_POST['login_button'])) {
-	$user_email = trim($_POST['user_email']);
-	$user_password = trim($_POST['password']);
-	
-	$sql = "SELECT * FROM Administrator WHERE Email='$user_email' && Password='$user_password'";
-	$resultset = mysqli_query($db, $sql);
-	$row = mysqli_fetch_assoc($resultset);	
-	
-				
-	if($row['Password']==$user_password){				
-        setcookie("adminid",$user_password,time()+(60*60*24*7));
-        setcookie("adminemail",$user_email,time()+(60*60*24*7));
-	    header('Location: index.php');
-		
-	}
-	else {				
-		$_SESSION['error'] = "email or password does not exist."; // wrong details 
-	       }	
+session_start();
+include 'db_connect.php';
 
+if (isset($_POST['login_button'])) {
+    $user_email = trim($_POST['user_email']);
+    $user_password = trim($_POST['password']);
+
+    $sql = "SELECT * FROM Administrator WHERE Email='$user_email'";
+    $resultset = mysqli_query($db, $sql);
+
+
+    if ($resultset && $resultset->num_rows > 0) {
+        $user = $resultset->fetch_assoc();
+        if (password_verify($user_password, $user['Password'])) {
+            setcookie('adminid', $user_password, time() + 60 * 60 * 24 * 7);
+            setcookie('adminemail', $user_email, time() + 60 * 60 * 24 * 7);
+            $_SESSION['admin'] = $user['username'];
+            header('Location: index.php');
+        } else {
+            $_SESSION['error'] = 'Password yang ada masukan salah';
+        }
+    } else {
+        $_SESSION['error'] = 'User tidak ditemukan';
+    }
+    // if(password_verify($user_password, $row['Password'])){
+    //     setcookie("adminid",$user_password,time()+(60*60*24*7));
+    //     setcookie("adminemail",$user_email,time()+(60*60*24*7));
+    //     header('Location: index.php');
+
+    // }
+    // else {
+    // 	$_SESSION['error'] = "email or password does not exist."; // wrong details
+    //        }
 }
 
-
- 	
 ?>
 
 <?php
@@ -115,18 +124,20 @@ while ($foundk = mysqli_fetch_array($retrieve)) {
                             <h2 class="text-center text-primary">Login</h2>
                         </div>
                         <form action="login.php" method="post">
-                        <?php if (isset($_SESSION['error'])) { ?>
+                            <?php if (isset($_SESSION['error'])) { ?>
                             <div class="alert alert-danger"><?php echo $_SESSION['error']; ?></div>
                             <?php unset($_SESSION['error']); ?>
                             <?php } ?>
                             <div class="input-group custom">
-                                <input type="email" class="form-control form-control-lg" placeholder="Email" name="user_email" />
+                                <input type="email" class="form-control form-control-lg" placeholder="Email"
+                                    name="user_email" />
                                 <div class="input-group-append custom">
                                     <span class="input-group-text"><i class="icon-copy dw dw-user1"></i></span>
                                 </div>
                             </div>
                             <div class="input-group custom">
-                                <input type="password" class="form-control form-control-lg" name="password" placeholder="**********" />
+                                <input type="password" class="form-control form-control-lg" name="password"
+                                    placeholder="**********" />
                                 <div class="input-group-append custom">
                                     <span class="input-group-text"><i class="dw dw-padlock1"></i></span>
                                 </div>
@@ -134,7 +145,8 @@ while ($foundk = mysqli_fetch_array($retrieve)) {
                             <div class="row">
                                 <div class="col-sm-12">
                                     <div class="input-group mb-0">
-                                        <button type="submit" class="btn btn-primary btn-lg btn-block" name="login_button">Sign
+                                        <button type="submit" class="btn btn-primary btn-lg btn-block"
+                                            name="login_button">Sign
                                             In</button>
                                     </div>
                                 </div>

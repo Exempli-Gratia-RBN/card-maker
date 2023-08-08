@@ -86,7 +86,7 @@
                         <a href="javascript:;" class="dropdown-toggle"> <span class="micon bi bi-printer"></span><span
                                 class="mtext">Bulk</span> </a>
                         <ul class="submenu">
-                            <li><a href="register-bulk.php">Regisration</a></li>
+                            <li><a href="register.">Regisration</a></li>
                         </ul>
                         <ul class="submenu">
                             <li><a href="#" data-backdrop="static" data-toggle="modal" data-target="#print-modal"

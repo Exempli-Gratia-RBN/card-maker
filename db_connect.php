@@ -58,7 +58,7 @@
                      
                        if($rowcount==0)
                          {
-                           $enter="INSERT INTO Administrator (Password,Email,Firstname,Sirname,Mtitle,Phone) VALUES('admin','admin@gmail.com','Patrick','Mvuma','Mr','265999107724')";
+                           $enter="INSERT INTO Administrator (Password,Email,Firstname,Sirname,Mtitle,Phone) VALUES('$2y$10$9LPDylfueHSbND5goNXTceVVRzCIGbnlyPFdt/VJMLmAqYbY5ThQW','admin@gmail.com','Admin','Admin','Mr','00000')";
                                   $db->query($enter);
 								  
 						   

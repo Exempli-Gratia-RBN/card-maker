@@ -253,7 +253,7 @@ if (isset($_POST['orginitial']))
 
         $_SESSION['regk'] = "Pamzey";
 
-        header("Location:admin.php");
+        header("Location:index.php");
 
     }
     else
@@ -290,7 +290,7 @@ if (isset($_POST['orgupdate']))
 
         $_SESSION['regX'] = "Pamzey";
 
-        header("Location:admin.php");
+        header("Location:index.php");
 
     }
     else
